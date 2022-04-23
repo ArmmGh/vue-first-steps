@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Montserrat+Alternates:wght@300;400;600&display=swap');
+* {
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
+  &::selection {
+    background: $main-bg;
+    color: #fff;
+  }
+}
+
+body {
+  margin: 0;
+  #app {
+    padding-top: 35px;
+    max-width: 1280px;
+    margin: auto;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat Alternates', sans-serif;
+    @media only screen and (max-width: 1280px) {
+      max-width: 940px;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $main-bg;
+  }
+}
