@@ -4,22 +4,22 @@
 ```
 git clone https://github.com/ArmmGh/vue-first-steps.git
 
-npm install
+npm run install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm serve
+npm run serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm build
+npm run build
 ```
 
 ### Lints and fixes files
 ```
-npm lint
+npm run lint
 ```
 
 ### Customize configuration
