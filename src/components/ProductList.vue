@@ -12,7 +12,11 @@
       <h3>{{ selectedProduct.author }}</h3>
     </template>
     <template #body>
-      <img :src="selectedProduct.download_url" alt="image" />
+      <img
+        :style="{ width: '100%' }"
+        :src="selectedProduct.download_url"
+        alt="image"
+      />
     </template>
     <template #footer>
       <v-button :label="labels.navigate" @click="handleNavigate"></v-button>

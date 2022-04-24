@@ -1,9 +1,11 @@
 <template>
   <div class="pagination">
     <v-input
-      type="number"
+      :type="'number'"
       :width="60"
-      :max="100"
+      :max="constants.MAX_LIMIT"
+      :min="constants.MIN_LIMIT"
+      :maxlength="2"
       :value="store.state.limit"
       @input="handleLimitChange"
     />
@@ -26,17 +28,15 @@
 <script>
 import store from '@/store';
 import labels from '@/config/labels.json';
+import constants from '@/config';
 import { debounce } from '@/utils';
 
 export default {
   name: 'PaginationBar',
-  props: {
-    page: Number,
-    limit: Number
-  },
   data() {
     return {
-      labels
+      labels,
+      constants
     };
   },
   inject: {
@@ -49,12 +49,21 @@ export default {
   },
   methods: {
     handleLimitChange: debounce(($event) => {
-      let limit = $event.target.value;
-      if (limit > 100) {
-        limit = 100;
+      const maxLimit = Number(constants.MAX_LIMIT);
+      const minLimit = Number(constants.MIN_LIMIT);
+      let currentLimit = Number($event.target.value);
+      if (currentLimit > maxLimit) {
+        currentLimit = maxLimit;
+      } else if (currentLimit < minLimit) {
+        currentLimit = minLimit;
       }
-      store.methods.setLimit(limit);
-      store.methods.loadProducts(store.state.page, limit);
+      if (
+        currentLimit === store.state.limit &&
+        (currentLimit === maxLimit || currentLimit === minLimit)
+      )
+        return;
+
+      store.methods.loadProducts(store.state.page, currentLimit);
     })
   }
 };
@@ -67,7 +76,7 @@ export default {
   width: 335px;
   position: fixed;
   bottom: 15px;
-  left: calc(50% - 160px);
+  left: calc(50% - 182.5px);
   border-radius: 10px;
   background: rgb(227 227 255 / 75%);
   box-shadow: $element-shadow;

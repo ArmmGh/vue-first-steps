@@ -2,7 +2,7 @@
   <Transition name="modal">
     <div v-if="showModal" class="modal__mask">
       <div class="modal__wrapper">
-        <div class="modal__container" :style="{ width: getWidth }">
+        <div class="modal__container" :style="{ maxWidth: getWidth }">
           <div class="modal__header">
             <slot name="header"></slot>
           </div>

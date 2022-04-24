@@ -1,7 +1,7 @@
 <template>
   <v-input
     @input="onSearchInput"
-    type="text"
+    :type="'text'"
     :placeholder="labels.placeholder"
   />
 </template>

@@ -3,7 +3,6 @@
     class="v-input"
     :style="{ width: `${width}px` }"
     :placeholder="placeholder"
-    @input="$emit('onInput')"
   />
 </template>
 

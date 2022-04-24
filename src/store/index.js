@@ -6,7 +6,7 @@ const state = reactive({
   page: 1,
   prevPage: null,
   nextPage: null,
-  limit: null,
+  limit: 30,
   searchText: ''
 });
 
