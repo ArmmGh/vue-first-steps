@@ -2,6 +2,8 @@
 
 ## Project setup
 ```
+git clone https://github.com/ArmmGh/vue-first-steps.git
+
 npm install
 ```
 
