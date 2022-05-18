@@ -1,11 +1,9 @@
-import MainLayout from '@/layouts/MainLayout.vue';
-
 const routes = [
   {
     mode: 'history',
     name: 'Home',
     path: '/home',
-    component: MainLayout
+    component: () => import('@/layouts/MainLayout.vue')
   },
   {
     path: '/:pathMatch(.*)*',

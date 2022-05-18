@@ -7,7 +7,7 @@
       @onProductClick="handleProductClick"
     />
   </ul>
-  <v-modal :width="450" :showModal="showModal" @close="handleClose">
+  <VModal :width="450" :showModal="showModal" @close="handleClose">
     <template #header>
       <h3>{{ selectedProduct.author }}</h3>
     </template>
@@ -21,7 +21,7 @@
     <template #footer>
       <v-button :label="labels.navigate" @click="handleNavigate"></v-button>
     </template>
-  </v-modal>
+  </VModal>
 </template>
 
 <script>
@@ -29,6 +29,7 @@ import store from '@/store';
 import labels from '@/config/labels.json';
 import { filterProducts, navigateTo } from '@/utils';
 import ProductItem from '@/components/ProductItem.vue';
+import { defineAsyncComponent } from '@vue/runtime-core';
 
 export default {
   name: 'ProductList',
@@ -56,7 +57,10 @@ export default {
     };
   },
   components: {
-    ProductItem
+    ProductItem,
+    VModal: defineAsyncComponent({
+      loader: () => import(/* webpackPrefetch: true */ './common/v-modal.vue')
+    })
   },
 
   watch: {
