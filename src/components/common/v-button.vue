@@ -1,5 +1,5 @@
 <template>
-  <button class="v-button" @click="$emit('onClick')">
+  <button class="v-button">
     {{ label }}
   </button>
 </template>

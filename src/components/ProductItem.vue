@@ -20,6 +20,9 @@ export default {
   name: 'ProductItem',
   props: {
     product: Object
+  },
+  emits: {
+    onProductClick: (value) => typeof value === 'object'
   }
 };
 </script>

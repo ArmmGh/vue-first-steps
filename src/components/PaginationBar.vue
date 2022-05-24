@@ -11,13 +11,13 @@
     />
     <v-button
       :disabled="this.isFirstPage"
-      @onClick="this.handlePrevPage"
+      @click="this.handlePrevPage"
       :label="labels.prev"
     />
     <span class="pagination__label">{{ labels.page }}: {{ this.page }}</span>
     <v-button
       :disabled="this.isLastPage"
-      @onClick="this.handleNextPage"
+      @click="this.handleNextPage"
       :label="labels.next"
     />
   </div>
