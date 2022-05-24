@@ -3,22 +3,22 @@
     <v-input
       :type="'number'"
       :width="60"
-      :max="constants.MAX_LIMIT"
-      :min="constants.MIN_LIMIT"
+      :max="$options.constants.MAX_LIMIT"
+      :min="$options.constants.MIN_LIMIT"
       :maxlength="2"
-      :value="this.limit"
+      :value="limit"
       @input="handleLimitChange"
     />
     <v-button
-      :disabled="this.isFirstPage"
-      @click="this.handlePrevPage"
-      :label="labels.prev"
+      :disabled="isFirstPage"
+      @click="handlePrevPage"
+      :label="$options.labels.prev"
     />
-    <span class="pagination__label">{{ labels.page }}: {{ this.page }}</span>
+    <span class="pagination__label">{{ $options.labels.page }}: {{ page }}</span>
     <v-button
-      :disabled="this.isLastPage"
-      @click="this.handleNextPage"
-      :label="labels.next"
+      :disabled="isLastPage"
+      @click="handleNextPage"
+      :label="$options.labels.next"
     />
   </div>
 </template>
@@ -32,12 +32,8 @@ import { loadProductsAsync } from '@/store/actions/action-types';
 
 export default {
   name: 'PaginationBar',
-  data() {
-    return {
-      labels,
-      constants
-    };
-  },
+  labels,
+  constants,
   computed: {
     ...mapGetters(['isFirstPage', 'isLastPage']),
     ...mapState(['prevPage', 'page', 'nextPage', 'limit'])

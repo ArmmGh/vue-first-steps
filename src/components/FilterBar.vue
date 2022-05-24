@@ -2,7 +2,7 @@
   <v-input
     @input="onSearchInput"
     :type="'text'"
-    :placeholder="labels.placeholder"
+    :placeholder="$options.labels.placeholder"
   />
 </template>
 
@@ -13,9 +13,7 @@ import { handleSearch } from '@/store/mutations/mutation-types';
 
 export default {
   name: 'FilterBar',
-  data() {
-    return { labels };
-  },
+  labels,
   methods: {
     ...mapMutations({ handleSearch }),
     onSearchInput($event) {

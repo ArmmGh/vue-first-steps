@@ -19,7 +19,7 @@
       />
     </template>
     <template #footer>
-      <v-button :label="labels.navigate" @click="handleNavigate"></v-button>
+      <v-button :label="$options.labels.navigate" @click="handleNavigate" />
     </template>
   </VModal>
 </template>
@@ -51,10 +51,10 @@ export default {
     return {
       originalProducts: [],
       selectedProduct: null,
-      showModal: false,
-      labels
+      showModal: false
     };
   },
+  labels,
   components: {
     ProductItem,
     VModal: defineAsyncComponent({

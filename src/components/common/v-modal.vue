@@ -11,9 +11,9 @@
           </div>
           <div class="modal__footer">
             <v-button
-              :label="labels.close"
+              :label="$options.labels.close"
               class="modal-default-button"
-              @click="$emit('close')"
+              @click="close"
             >
             </v-button>
             <slot name="footer"> </slot>
@@ -29,14 +29,33 @@ import labels from '@/config/labels.json';
 
 export default {
   name: 'v-modal',
+  labels,
   props: {
-    showModal: Boolean,
-    width: Number
+    showModal: {
+      type: Boolean,
+      required: true
+    },
+    width: {
+      type: Number,
+      required: false
+    }
   },
-  data() {
-    return {
-      labels
-    };
+  emits: {
+    close: null
+  },
+  mounted() {
+    document.addEventListener('keydown', this.handleKeydown);
+  },
+  beforeUnmount() {
+    document.removeEventListener('keydown', this.handleKeydown);
+  },
+  methods: {
+    handleKeydown(e) {
+      if (this.showModal && e.key === 'Escape') this.close();
+    },
+    close() {
+      this.$emit('close');
+    }
   },
   computed: {
     getWidth() {
