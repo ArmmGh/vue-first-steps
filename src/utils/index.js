@@ -14,8 +14,6 @@ export const debounce = (fn, delay = 500) => {
   };
 };
 
-export const filterProducts = (products, keyword) => products.filter((product) => makeTextSearchable(product.author).includes(keyword));
-
 export const navigateTo = (url, newTab = true) => {
   window.open(url, newTab ? '_blank' : '');
 };

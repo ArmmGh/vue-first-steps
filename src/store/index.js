@@ -1,17 +1,20 @@
-import { reactive, readonly } from 'vue';
-import methods from '@/store/methods';
+import { createStore } from 'vuex';
+import { mutations } from './mutations';
+import { actions } from './actions';
+import { getters } from './getters';
 
-const state = reactive({
-  products: [],
-  page: 1,
-  prevPage: null,
-  nextPage: null,
-  limit: 30,
-  searchText: ''
+const store = createStore({
+  state: {
+    products: [],
+    page: 1,
+    prevPage: null,
+    nextPage: null,
+    limit: 30,
+    searchText: ''
+  },
+  actions,
+  mutations,
+  getters
 });
 
-export default {
-  //readonly to prevent modifing state outside the store
-  state: readonly(state),
-  methods: methods(state)
-};
+export default store;

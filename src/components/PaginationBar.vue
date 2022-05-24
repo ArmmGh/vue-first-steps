@@ -6,30 +6,29 @@
       :max="constants.MAX_LIMIT"
       :min="constants.MIN_LIMIT"
       :maxlength="2"
-      :value="store.state.limit"
+      :value="this.limit"
       @input="handleLimitChange"
     />
     <v-button
-      :disabled="isFirstPage"
-      @onClick="store.methods.goPrevPage()"
+      :disabled="this.isFirstPage"
+      @onClick="this.handlePrevPage"
       :label="labels.prev"
     />
-    <span class="pagination__label"
-      >{{ labels.page }}: {{ store.state.page }}</span
-    >
+    <span class="pagination__label">{{ labels.page }}: {{ this.page }}</span>
     <v-button
-      :disabled="isLastPage"
-      @onClick="store.methods.goNextPage()"
+      :disabled="this.isLastPage"
+      @onClick="this.handleNextPage"
       :label="labels.next"
     />
   </div>
 </template>
 
 <script>
-import store from '@/store';
 import labels from '@/config/labels.json';
 import constants from '@/config';
 import { debounce } from '@/utils';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import { loadProductsAsync } from '@/store/actions/action-types';
 
 export default {
   name: 'PaginationBar',
@@ -39,32 +38,40 @@ export default {
       constants
     };
   },
-  inject: {
-    store
-  },
   computed: {
-    isFirstPage: () =>
-      store.state.prevPage < 1 || store.state.page === store.state.prevPage,
-    isLastPage: () => !store.state.nextPage
+    ...mapGetters(['isFirstPage', 'isLastPage']),
+    ...mapState(['prevPage', 'page', 'nextPage', 'limit'])
   },
   methods: {
-    handleLimitChange: debounce(($event) => {
-      const maxLimit = Number(constants.MAX_LIMIT);
-      const minLimit = Number(constants.MIN_LIMIT);
-      let currentLimit = Number($event.target.value);
-      if (currentLimit > maxLimit) {
-        currentLimit = maxLimit;
-      } else if (currentLimit < minLimit) {
-        currentLimit = minLimit;
+    ...mapActions({ loadProducts: loadProductsAsync }),
+    handlePrevPage() {
+      if (this.prevPage >= 1 && this.page !== this.prevPage) {
+        this.loadProducts({ page: this.prevPage, currentLimit: this.limit });
       }
-      if (
-        currentLimit === store.state.limit &&
-        (currentLimit === maxLimit || currentLimit === minLimit)
-      )
-        return;
+    },
+    handleNextPage() {
+      this.nextPage &&
+        this.loadProducts({ page: this.nextPage, currentLimit: this.limit });
+    },
+    handleLimitChange($event) {
+      debounce(() => {
+        const maxLimit = Number(constants.MAX_LIMIT);
+        const minLimit = Number(constants.MIN_LIMIT);
+        let currentLimit = Number($event.target.value);
+        if (currentLimit > maxLimit) {
+          currentLimit = maxLimit;
+        } else if (currentLimit < minLimit) {
+          currentLimit = minLimit;
+        }
+        if (
+          currentLimit === this.limit &&
+          (currentLimit === maxLimit || currentLimit === minLimit)
+        )
+          return;
 
-      store.methods.loadProducts(store.state.page, currentLimit);
-    })
+        this.loadProducts({ page: this.page, currentLimit });
+      })();
+    }
   }
 };
 </script>

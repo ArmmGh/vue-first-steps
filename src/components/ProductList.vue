@@ -25,17 +25,15 @@
 </template>
 
 <script>
-import store from '@/store';
 import labels from '@/config/labels.json';
-import { filterProducts, navigateTo } from '@/utils';
+import { navigateTo } from '@/utils';
 import ProductItem from '@/components/ProductItem.vue';
 import { defineAsyncComponent } from '@vue/runtime-core';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import { loadProductsAsync } from '@/store/actions/action-types';
 
 export default {
   name: 'ProductList',
-  inject: {
-    store
-  },
   methods: {
     handleNavigate() {
       navigateTo(this.selectedProduct.url);
@@ -46,7 +44,8 @@ export default {
     },
     handleClose() {
       this.showModal = false;
-    }
+    },
+    ...mapActions({ loadProducts: loadProductsAsync })
   },
   data() {
     return {
@@ -62,38 +61,31 @@ export default {
       loader: () => import(/* webpackPrefetch: true */ './common/v-modal.vue')
     })
   },
-
+  computed: {
+    ...mapState(['products', 'searchText', 'page', 'limit']),
+    ...mapGetters(['filterProducts'])
+  },
   watch: {
-    'store.state.products': {
-      handler() {
-        this.originalProducts = store.state.searchText
-          ? filterProducts(store.state.products, store.state.searchText)
-          : store.state.products;
-
-        this.$router.push({
-          name: 'Home',
-          query: {
-            page: store.state.page,
-            limit: store.state.limit
-          },
-          replace: true
-        });
-      }
+    products() {
+      this.originalProducts = this.filterProducts(this.searchText);
+      this.$router.push({
+        name: 'Home',
+        query: {
+          page: this.page,
+          limit: this.limit
+        },
+        replace: true
+      });
     },
-    'store.state.searchText': {
-      handler(newValue, oldValue) {
-        if (newValue !== oldValue) {
-          this.originalProducts = filterProducts(
-            store.state.products,
-            store.state.searchText
-          );
-        }
+    searchText(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.originalProducts = this.filterProducts(this.searchText);
       }
     }
   },
   mounted() {
     const { page, limit } = this.$route.query;
-    store.methods.loadProducts(page, limit);
+    this.loadProducts({ page, currentLimit: limit });
   }
 };
 </script>

@@ -7,20 +7,19 @@
 </template>
 
 <script>
-import store from '@/store';
 import labels from '@/config/labels.json';
+import { mapMutations } from 'vuex';
+import { handleSearch } from '@/store/mutations/mutation-types';
 
 export default {
   name: 'FilterBar',
-  inject: {
-    store
-  },
   data() {
     return { labels };
   },
   methods: {
-    onSearchInput: ($event) => {
-      store.methods.handleSearch($event.target.value);
+    ...mapMutations({ handleSearch }),
+    onSearchInput($event) {
+      this.handleSearch($event.target.value);
     }
   }
 };
