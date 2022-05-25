@@ -30,18 +30,17 @@ import labels from '@/config/labels.json';
 export default {
   name: 'v-modal',
   labels,
+  modalController: {},
+  data() {
+    return {
+      showModal: false
+    };
+  },
   props: {
-    showModal: {
-      type: Boolean,
-      required: true
-    },
     width: {
       type: Number,
       required: false
     }
-  },
-  emits: {
-    close: null
   },
   mounted() {
     document.addEventListener('keydown', this.handleKeydown);
@@ -49,17 +48,30 @@ export default {
   beforeUnmount() {
     document.removeEventListener('keydown', this.handleKeydown);
   },
-  methods: {
-    handleKeydown(e) {
-      if (this.showModal && e.key === 'Escape') this.close();
-    },
-    close() {
-      this.$emit('close');
-    }
-  },
   computed: {
     getWidth() {
       return this.width ? `${this.width}px` : 'auto';
+    }
+  },
+  methods: {
+    open() {
+      this.showModal = true;
+      let resolve;
+      let reject;
+      const modalPromise = new Promise((ok, fail) => {
+        resolve = ok;
+        reject = fail;
+      });
+      this.$options.modalController = { resolve, reject };
+
+      return modalPromise;
+    },
+    close() {
+      this.$options.modalController.resolve(false);
+      this.showModal = false;
+    },
+    handleKeydown(e) {
+      if (this.showModal && e.key === 'Escape') this.close();
     }
   }
 };

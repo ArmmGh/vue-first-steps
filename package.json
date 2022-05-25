@@ -5,14 +5,15 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "fix": "vue-cli-service lint --fix",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "axios": "^0.26.1",
+    "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "parse-link-header": "^2.0.0",
     "url": "^0.11.0",
-    "vue": "^3.2.13",
+    "vue": "^3.2.36",
     "vue-router": "^4.0.14",
     "vuex": "^4.0.2"
   },
@@ -22,10 +23,10 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3",
+    "eslint": "^8.16.0",
+    "eslint-plugin-vue": "^9.0.1",
     "sass": "^1.50.1",
-    "sass-loader": "^12.6.0"
+    "sass-loader": "^13.0.0"
   },
   "eslintConfig": {
     "root": true,

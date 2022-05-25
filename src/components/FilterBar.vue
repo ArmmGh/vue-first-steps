@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import labels from '@/config/labels.json';
 import { mapMutations } from 'vuex';
 import { handleSearch } from '@/store/mutations/mutation-types';
+import labels from '@/config/labels.json';
 
 export default {
   name: 'FilterBar',
