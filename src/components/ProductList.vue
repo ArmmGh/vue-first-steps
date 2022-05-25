@@ -7,7 +7,7 @@
       @onProductClick="handleProductClick"
     />
   </ul>
-  <VModal :width="450" :showModal="showModal" @close="handleClose">
+  <v-modal :width="450" ref="productModal">
     <template #header>
       <h3>{{ selectedProduct.author }}</h3>
     </template>
@@ -21,49 +21,43 @@
     <template #footer>
       <v-button :label="$options.labels.navigate" @click="handleNavigate" />
     </template>
-  </VModal>
+  </v-modal>
 </template>
 
 <script>
-import labels from '@/config/labels.json';
-import { navigateTo } from '@/utils';
-import ProductItem from '@/components/ProductItem.vue';
-import { defineAsyncComponent } from '@vue/runtime-core';
+import { defineAsyncComponent } from 'vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
 import { loadProductsAsync } from '@/store/actions/action-types';
+import ProductItem from '@/components/ProductItem.vue';
+import labels from '@/config/labels.json';
+import { navigateTo } from '@/utils';
 
 export default {
   name: 'ProductList',
+  labels,
+  data() {
+    return {
+      originalProducts: [],
+      selectedProduct: null
+    };
+  },
+  mounted() {
+    const { page, limit } = this.$route.query;
+    this.loadProducts({ page, currentLimit: limit });
+  },
+  computed: {
+    ...mapState(['products', 'searchText', 'page', 'limit']),
+    ...mapGetters(['filterProducts'])
+  },
   methods: {
     handleNavigate() {
       navigateTo(this.selectedProduct.url);
     },
     handleProductClick(product) {
-      this.showModal = true;
       this.selectedProduct = product;
-    },
-    handleClose() {
-      this.showModal = false;
+      this.$refs.productModal.open();
     },
     ...mapActions({ loadProducts: loadProductsAsync })
-  },
-  data() {
-    return {
-      originalProducts: [],
-      selectedProduct: null,
-      showModal: false
-    };
-  },
-  labels,
-  components: {
-    ProductItem,
-    VModal: defineAsyncComponent({
-      loader: () => import(/* webpackPrefetch: true */ './common/v-modal.vue')
-    })
-  },
-  computed: {
-    ...mapState(['products', 'searchText', 'page', 'limit']),
-    ...mapGetters(['filterProducts'])
   },
   watch: {
     products() {
@@ -83,9 +77,11 @@ export default {
       }
     }
   },
-  mounted() {
-    const { page, limit } = this.$route.query;
-    this.loadProducts({ page, currentLimit: limit });
+  components: {
+    ProductItem,
+    VModal: defineAsyncComponent({
+      loader: () => import(/* webpackPrefetch: true */ './common/v-modal.vue')
+    })
   }
 };
 </script>

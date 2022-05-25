@@ -24,11 +24,11 @@
 </template>
 
 <script>
-import labels from '@/config/labels.json';
-import constants from '@/config';
-import { debounce } from '@/utils';
 import { mapActions, mapGetters, mapState } from 'vuex';
 import { loadProductsAsync } from '@/store/actions/action-types';
+import labels from '@/config/labels.json';
+import { debounce } from '@/utils';
+import constants from '@/config';
 
 export default {
   name: 'PaginationBar',
