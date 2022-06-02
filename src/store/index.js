@@ -10,7 +10,8 @@ const store = createStore({
     prevPage: null,
     nextPage: null,
     limit: 30,
-    searchText: ''
+    searchText: '',
+    loading: false
   },
   actions,
   mutations,
