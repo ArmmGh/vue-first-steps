@@ -1,5 +1,5 @@
 import { makeTextSearchable } from '@/utils';
-import { handleSearch, setPageConfigs, setProducts, setLimit } from './mutation-types';
+import { handleSearch, setPageConfigs, setProducts, setLimit, setLoading } from './mutation-types';
 
 export const mutations = {
   [handleSearch](state, searchText) {
@@ -15,5 +15,8 @@ export const mutations = {
   },
   [setLimit](state, limit) {
     state.limit = limit;
+  },
+  [setLoading](state, status) {
+    state.loading = status;
   }
 };

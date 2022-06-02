@@ -2,6 +2,10 @@ import constants from '@/config';
 import { optimizeProductsImages } from '@/utils';
 import parseLinkHeader from 'parse-link-header';
 import axios from 'axios';
+import { interceptRequest, interceptResponse } from './interceptors';
+
+interceptRequest();
+interceptResponse();
 
 export const loadProductsInfo = async (currentPage, currentLimit) => {
   const url = new URL(constants.API);
